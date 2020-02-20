@@ -14,13 +14,14 @@ docker run \
 # collector
 docker run \
   --name=collector \
+  -d \
   -e SPAN_STORAGE_TYPE=elasticsearch \
   -p 44268:14268 \
   -p 44267:14267 \
   -p 59411:9411 \
   -p 44269:14269 \
   jaegertracing/jaeger-collector:1.7 \
-  --es.server-urls srvdocker2-t:49200
+  --es.server-urls=http://srvdocker-t:65430,http://srvdocker-t:65432,http://srvdocker-t:65434
 
 # agent
 docker run \
@@ -31,14 +32,14 @@ docker run \
   -p 46832:6832/udp \
   -p 45778:5778/tcp \
   jaegertracing/jaeger-agent:1.7 \
-  --collector.host-port=srvdocker2-t:44267
+  --collector.host-port=srvdocker-t:44267
 
 # query
 docker run \
   -d \
   --name query \
   -e SPAN_STORAGE_TYPE=elasticsearch \
-  -e ES_SERVER_URLS=http://srvdocker2-t:49200 \
+  -e ES_SERVER_URLS=http://srvdocker-t:65430,http://srvdocker-t:65432,http://srvdocker-t:65434 \
   -p 46686:16686 \
   jaegertracing/jaeger-query:1.7
 
@@ -48,7 +49,7 @@ docker run \
    -it \
    jaegertracing/jaeger-es-index-cleaner:1.8.0 \
    10 \
-   srvdocker2-t:49200
+   srvdocker-t:65430
 ```
 
 #### Jaeger UI
