@@ -93,6 +93,3 @@ docker run \
 #### The OpenTracing Semantic Specification
 [The OpenTracing Semantic Specification](https://github.com/opentracing/specification/blob/master/specification.md)
 
-#### Demo Sample
-http://srvdocker2-t:16686
-
